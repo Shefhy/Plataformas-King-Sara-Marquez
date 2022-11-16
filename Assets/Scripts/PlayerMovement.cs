@@ -63,7 +63,6 @@ public class PlayerMovement : MonoBehaviour
             anim.SetBool("Jump", true);
         }
 
-
         //playerTransform.Translate(Vector3.right * horizontal * speed * Time.deltaTime, Space.World);
         //Otras Opciones de hacer el movimiento horizontal del personaje
         //playerTransform.position += new Vector3 (horizontal * speed * Time.deltaTime, 0, 0); 
@@ -71,12 +70,27 @@ public class PlayerMovement : MonoBehaviour
 
         rb.velocity = new Vector2 (horizontal * speed , rb.velocity.y);
         
+        //GameManager.Instace.RestarVidas();
+        //GameManager.Instace.vidas;
+        //Global.nivel = 1;
     }
     void OnTriggerEnter2D(Collider2D other) 
     {
-        if(other.gameObject.tag == "Cinematica")
+        /*if(other.gameObject.tag == "Cinematica")
         {
             director.Play();
+        }*/
+        
+        if (other.gameObject.CompareTag("Coins"))
+        {
+            Destroy(other.gameObject);
+        }
+
+        if(other.gameObject.layer == 7)
+        {
+            //GameManager.Instace.RestarVidas();
+            StartCoroutine(GameObject.Find("Main Camera").GetComponent<CameraShake>().Shake(1f, 0.05f));
+            Destroy(other.gameObject);            
         }
         
     }
